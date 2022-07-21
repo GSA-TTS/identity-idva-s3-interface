@@ -1,0 +1,15 @@
+---
+version: 1
+applications:
+  - name: s3-interface
+    memory: 128M
+    instances: 1
+    no-route: true
+    health-check-type: process
+    command: |
+      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      unzip awscliv2.zip
+      ./aws/install -i ./aws-cli-files -b ./aws-cli-bin
+      sleep 1d
+    services:
+     - sk-s3
