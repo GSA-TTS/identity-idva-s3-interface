@@ -1,4 +1,4 @@
-# IDVA GPO Microservice
+# IDVA S3 Interface Microservice
 The S3 Interface microservice is a Python [Flask](https://flask.palletsprojects.com/en/2.1.x/)
 application that exposes a REST API for the access, normalization, and deletion of images stored
 in IDVA's TrueID S3 bucket.
