@@ -55,7 +55,7 @@ a vars.yaml file that includes runtime variables referenced. For info, see
 Running the following `cf` command will deploy the application to cloud.gov
 ```shell
 cf push --vars-file vars.yaml \
-  --var ENVIRONMENT=<env> \
+  --var ENVIRONMENT=<env>
 ```
 
 ## Public domain
