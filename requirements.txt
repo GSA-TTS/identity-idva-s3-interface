@@ -1,3 +1,4 @@
 pre-commit
 flask
 boto3
+gunicorn
