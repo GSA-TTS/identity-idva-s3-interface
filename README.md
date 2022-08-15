@@ -1,7 +1,10 @@
 # IDVA S3 Interface Microservice
 The S3 Interface microservice is a Python [Flask](https://flask.palletsprojects.com/en/2.1.x/)
 application that exposes a REST API for the access, normalization, and deletion of images stored
-in IDVA's TrueID S3 bucket.
+in IDVA's S3 bucket.
+
+The service that requires to communcation with the S3 bucket is not able to sign requests per [AWS Signature Version 4](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html).
+Instead, this Flask app will act as an S3 interface using [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html).
 
 ## CI/CD Workflows with GitHub Actions
 The most up-to-date information about the CI/CD flows for this repo can be found in the
