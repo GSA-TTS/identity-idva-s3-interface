@@ -38,11 +38,3 @@ def get_file(key):
         b64 = base64.b64encode(f.read())
 
     return b64.decode('utf-8')
-
-
-def delete_file(key):
-    return bucket.delete_objects(Delete={
-        "Objects": [
-            {"Key": key}
-        ]
-    })

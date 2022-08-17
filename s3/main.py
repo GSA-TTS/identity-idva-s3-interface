@@ -16,15 +16,7 @@ def get_file():
     args = request.args
     file_name = args.get('name')
     image = s3_interface.get_file(file_name)
-    #return send_file(image, mimetype='image/jpeg')
     return image
-
-
-@app.route("/delete", methods=['DELETE'])
-def delete_file():
-    args = request.args
-    file_name = args.get('name')
-    return s3_interface.delete_file(file_name)
 
 
 if __name__ == "__main__":
