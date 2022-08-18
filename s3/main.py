@@ -1,22 +1,33 @@
 import os
-from flask import Flask, request, send_file
-from . import s3_interface
+import boto3
+from flask import Flask, jsonify, request
+from s3_interface import S3Interface
+from . import settings
+
+s3 = boto3.resource(
+    's3',
+    aws_access_key_id=settings.KEY_ID,
+    aws_secret_access_key=settings.SECRET_KEY,
+    region_name=settings.REGION
+)
+bucket = s3.Bucket(settings.BUCKET)
 
 app = Flask(__name__)
 
 
-@app.route("/list")
-def list():
-    contents = s3_interface.list_files()
-    return str(contents)
-
-
 @app.route("/get", methods=['GET'])
 def get_file():
+    """
+    Get file from s3 bucket in base64 format
+    """
     args = request.args
     file_name = args.get('name')
-    image = s3_interface.get_file(file_name)
-    return image
+    try:
+        image = S3Interface.get_file(file_name, bucket)
+    except FileNotFoundError:
+        return jsonify({"error": "File not Found", }), 404
+    else:
+        return image
 
 
 if __name__ == "__main__":

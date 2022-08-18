@@ -1,4 +1,6 @@
 pre-commit
 flask
 boto3
+pytest
+moto
 gunicorn
