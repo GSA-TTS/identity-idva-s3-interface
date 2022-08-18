@@ -42,6 +42,12 @@ python -m pytest # NOTE that without DEBUG=True, local unit tests will fail
 uvicorn s3-interface.main:app
 ```
 
+### Testing the application
+After completing [development setup](#development-setup) application locally with:
+```shell
+pytest
+```
+
 ### Viewing API Endpoints and documentation
 Documentation can be viewed locally by running the application and visiting
 http://127.0.0.1:8000/redoc
