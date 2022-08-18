@@ -16,7 +16,7 @@ The most up-to-date information about the CI/CD flows for this repo can be found
 
 ### Pre-requisites
 Make sure you have the following installed if you intend to build the project locally.
-- [Python 3.9](https://www.python.org/)
+- [Python 3.10](https://www.python.org/)
 - [CloudFoundry CLI](https://docs.cloudfoundry.org/cf-cli/)
 
 ### Development Setup

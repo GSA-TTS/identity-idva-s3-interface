@@ -1,1 +1,0 @@
-web: gunicorn s3.main:app

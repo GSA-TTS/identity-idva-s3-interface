@@ -2,11 +2,14 @@
 version: 1
 applications:
   - name: s3-interface
-    memory: 128M
-    instances: 1
+    routes:
+      - route: identity-idva-usps-((ENVIRONMENT)).apps.internal
+    memory: ((MEMORY))
+    instances: ((INSTANCES))
     buildpacks:
       - python_buildpack
+    command: gunicorn s3.main:app
     no-route: true
     health-check-type: process
     services:
-     - sk-s3
+      - sk-s3
