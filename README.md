@@ -6,6 +6,8 @@ in IDVA's S3 bucket.
 The service that is required to communicate with the S3 bucket is not able to sign requests per [AWS Signature Version 4](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html).
 Instead, this Flask app will act as an S3 interface using [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html).
 
+The service that requires the images can only handle images as base64 strings - all images fetched are converted to base64 format.
+
 ## CI/CD Workflows with GitHub Actions
 The most up-to-date information about the CI/CD flows for this repo can be found in the
 [GitHub workflows directory](https://github.com/18F/identity-idva-s3-interface/tree/main/.github/workflows)
