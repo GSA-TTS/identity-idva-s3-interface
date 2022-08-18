@@ -1,8 +1,8 @@
 import os
 import boto3
 from flask import Flask, jsonify, request
-from s3_interface import S3Interface
-from . import settings
+from s3.s3_interface import S3Interface
+from s3 import settings
 
 s3 = boto3.resource(
     's3',
@@ -18,7 +18,7 @@ app = Flask(__name__)
 @app.route("/get", methods=['GET'])
 def get_file():
     """
-    Get file from s3 bucket in base64 format
+    Get file from s3 interface
     """
     args = request.args
     file_name = args.get('name')
@@ -31,5 +31,5 @@ def get_file():
 
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 8080))
+    port = int(os.getenv("PORT", settings.PORT))
     app.run(host='0.0.0.0', port=port)
