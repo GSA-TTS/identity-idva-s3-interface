@@ -1,0 +1,37 @@
+---
+# This workflow will run unit tests and deploy the application to a
+# target environment
+
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "*"
+    paths-ignore:
+      - "**.md" # All markdown files in the repository
+
+jobs:
+  unit-test:
+    uses: 18F/identity-idva-s3-interface/.github/workflows/unit-tests.yaml@main
+
+  deploy:
+    if: github.repository_owner == '18F'
+    needs: unit-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: 18F/identity-idva-cf-setup@v2
+        id: cf-setup
+        with:
+          cf-username: ${{ secrets.CF_USERNAME }}
+          cf-password: ${{ secrets.CF_PASSWORD }}
+          cf-org: ${{ secrets.CF_ORG }}
+
+      - name: Deploy application
+        run: cf push --vars-file vars.yaml
+          --var ENVIRONMENT=${{ steps.cf-setup.outputs.target-environment }}
+          --strategy rolling
