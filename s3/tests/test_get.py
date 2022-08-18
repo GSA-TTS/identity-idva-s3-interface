@@ -2,8 +2,6 @@ import pytest
 import base64
 
 from s3.s3_interface import S3Interface
-from tempfile import NamedTemporaryFile
-
 
 @pytest.fixture
 def bucket_name():
