@@ -7,22 +7,21 @@ import os
 
 log = logging.getLogger(__name__)
 
+
 def get_s3_info():
-    vcap_services = os.getenv("VCAP_SERVICES", "")
+    vcap_services = os.getenv("VCAP_SERVICES")
     try:
-        key_id = json.loads(vcap_services)["s3"][0]["credentials"]["access_key_id"]
-        secret_key = json.loads(vcap_services)["s3"][0]["credentials"]["secret_access_key"]
-        region = json.loads(vcap_services)["s3"][0]["credentials"]["region"]
-        bucket = json.loads(vcap_services)["s3"][0]["credentials"]["bucket"]
+        credentials = json.loads(vcap_services)["s3"][0]["credentials"]
     except (json.JSONDecodeError, KeyError) as err:
         log.warning("Unable to load info from VCAP_SERVICES")
         log.debug("Error: %s", str(err))
-        key_id = ""
-        secret_key = ""
-        region = ""
-        bucket = ""
-    
+
+    key_id = credentials["access_key_id"]
+    secret_key = credentials["secret_access_key"]
+    region = credentials["region"]
+    bucket = credentials["bucket"]
     return (key_id, secret_key, region, bucket)
+
 
 PORT = 8080
 
