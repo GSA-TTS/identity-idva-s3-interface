@@ -23,6 +23,7 @@ def get_s3_info():
     return (key_id, secret_key, region, bucket)
 
 
-PORT = 8080
+PORT = int(os.getenv("PORT", 8080))
+HOST = '0.0.0.0'
 
 KEY_ID, SECRET_KEY, REGION, BUCKET = get_s3_info()
