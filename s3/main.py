@@ -1,6 +1,6 @@
 import os
 import boto3
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
 from s3.s3_interface import S3Interface
 from s3 import settings
 
@@ -27,7 +27,7 @@ def get_file():
     except FileNotFoundError:
         return jsonify({"error": "File not Found", }), 404
     else:
-        return image
+        return Response(image, mimetype='text/plain')
 
 
 if __name__ == "__main__":
