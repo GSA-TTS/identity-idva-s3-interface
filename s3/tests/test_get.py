@@ -1,5 +1,6 @@
 import pytest
 import base64
+import tempfile
 
 from s3.s3_interface import S3Interface
 
@@ -14,16 +15,22 @@ def s3_test(s3_resource, bucket_name):
     s3_resource.Bucket(bucket_name).upload_file('./s3/tests/images/penguin.jpg', 'penguin.jpg')
 
 def test_get_image_pass(s3_resource, s3_test, bucket_name):
-    with open('./s3/tests/images/penguin.jpg', 'rb') as img:
-        b64 = base64.b64encode(img.read()).decode('utf-8')
-    
-    res = S3Interface.get_file('penguin.jpg', s3_resource.Bucket(bucket_name))
+    tmp = tempfile.NamedTemporaryFile()
 
-    assert res == b64
+    res = S3Interface.get_file('penguin.jpg', s3_resource.Bucket(bucket_name), tmp)
+
+    with open('./s3/tests/images/penguin.jpg', 'rb') as img:
+        b64_og = base64.b64encode(img.read()).decode('utf-8')
+
+    with open(res, 'rb') as img:
+        b64_new = base64.b64encode(img.read()).decode('utf-8')
+
+    assert b64_og == b64_new
 
 def test_get_image_not_found(s3_resource, s3_test, bucket_name):
+    tmp = tempfile.NamedTemporaryFile()
     try:
-        S3Interface.get_file('does_not_exist', s3_resource.Bucket(bucket_name))
+        S3Interface.get_file('does_not_exist', s3_resource.Bucket(bucket_name), tmp)
     except FileNotFoundError:
         assert True
     else:
