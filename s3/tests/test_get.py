@@ -2,7 +2,7 @@ import pytest
 import base64
 import tempfile
 
-from s3.s3_interface import S3Interface
+from s3 import s3_interface
 
 @pytest.fixture
 def bucket_name():
@@ -17,7 +17,7 @@ def s3_test(s3_resource, bucket_name):
 def test_get_image_pass(s3_resource, s3_test, bucket_name):
     tmp = tempfile.NamedTemporaryFile()
 
-    res = S3Interface.get_file('penguin.jpg', s3_resource.Bucket(bucket_name), tmp)
+    res = s3_interface.get_file('penguin.jpg', s3_resource.Bucket(bucket_name), tmp)
 
     with open('./s3/tests/images/penguin.jpg', 'rb') as img:
         b64_og = base64.b64encode(img.read()).decode('utf-8')
@@ -30,7 +30,7 @@ def test_get_image_pass(s3_resource, s3_test, bucket_name):
 def test_get_image_not_found(s3_resource, s3_test, bucket_name):
     tmp = tempfile.NamedTemporaryFile()
     try:
-        S3Interface.get_file('does_not_exist', s3_resource.Bucket(bucket_name), tmp)
+        s3_interface.get_file('does_not_exist', s3_resource.Bucket(bucket_name), tmp)
     except FileNotFoundError:
         assert True
     else:
