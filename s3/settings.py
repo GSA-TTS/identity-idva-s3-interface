@@ -15,6 +15,7 @@ def get_s3_info():
     except (json.JSONDecodeError, KeyError) as err:
         log.warning("Unable to load info from VCAP_SERVICES")
         log.debug("Error: %s", str(err))
+        raise Exception(str(err))
 
     key_id = credentials["access_key_id"]
     secret_key = credentials["secret_access_key"]
