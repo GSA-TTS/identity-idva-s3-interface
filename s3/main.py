@@ -3,7 +3,7 @@ import boto3
 import tempfile
 import mimetypes
 from flask import Flask, jsonify, request, send_file
-from s3.s3_interface import S3Interface
+from s3 import s3_interface
 from s3 import settings
 
 s3 = boto3.resource(
@@ -26,7 +26,7 @@ def get_file():
     file_name = args.get('name')
     tmp = tempfile.NamedTemporaryFile()
     try:
-        image = S3Interface.get_file(file_name, bucket, tmp)
+        image = s3_interface.get_file(file_name, bucket, tmp)
     except FileNotFoundError:
         return jsonify({"error": "File not Found", }), 404
     else:
