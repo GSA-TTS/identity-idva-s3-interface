@@ -1,0 +1,13 @@
+---
+version: 1
+applications:
+  - name: s3-interface
+    routes:
+      - route: identity-idva-s3-interface-((ENVIRONMENT)).apps.internal
+    memory: ((MEMORY))
+    instances: ((INSTANCES))
+    buildpacks:
+      - python_buildpack
+    command: gunicorn s3.main:app
+    services:
+      - sk-s3
