@@ -1,7 +1,5 @@
-import os
 import boto3
 import tempfile
-import mimetypes
 from flask import Flask, jsonify, request, send_file
 from s3 import s3_interface
 from s3 import settings
