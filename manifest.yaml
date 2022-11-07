@@ -3,7 +3,7 @@ version: 1
 applications:
   - name: s3-interface
     routes:
-      - route: identity-idva-s3-interface-((ENVIRONMENT)).apps.internal
+      - route: idva-s3interface-((ENVIRONMENT_NAME)).apps.internal
     memory: ((MEMORY))
     instances: ((INSTANCES))
     buildpacks:
