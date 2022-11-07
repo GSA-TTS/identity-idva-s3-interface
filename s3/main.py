@@ -24,13 +24,15 @@ def get_file():
     """
     args = request.args
     file_name = args.get('name')
+
     tmp = tempfile.NamedTemporaryFile()
+
     try:
         image = s3_interface.get_file(file_name, bucket, tmp)
     except FileNotFoundError:
         return jsonify({"error": "File not Found", }), 404
     else:
-        return send_file(image, mimetype=mimetypes.guess_type(file_name)[0])
+        return send_file(image)
 
 
 if __name__ == "__main__":
