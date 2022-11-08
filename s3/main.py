@@ -5,17 +5,17 @@ from s3 import s3_interface
 from s3 import settings
 
 s3 = boto3.resource(
-    's3',
+    "s3",
     aws_access_key_id=settings.KEY_ID,
     aws_secret_access_key=settings.SECRET_KEY,
-    region_name=settings.REGION
+    region_name=settings.REGION,
 )
 bucket = s3.Bucket(settings.BUCKET)
 
 app = Flask(__name__)
 
 
-@app.route("/get", methods=['GET'])
+@app.route("/get", methods=["GET"])
 def get_file():
     """
     Get file from s3 interface
@@ -26,7 +26,14 @@ def get_file():
     try:
         image = s3_interface.get_file(file_name, bucket, tmp)
     except FileNotFoundError:
-        return jsonify({"error": "File not Found", }), 404
+        return (
+            jsonify(
+                {
+                    "error": "File not Found",
+                }
+            ),
+            404,
+        )
     else:
         return send_file(image, mimetype=mimetypes.guess_type(file_name)[0])
 
