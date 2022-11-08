@@ -2,3 +2,6 @@
 pytest
 moto
 pre-commit
+black
+pylint
+bandit
