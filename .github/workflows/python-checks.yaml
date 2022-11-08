@@ -43,4 +43,4 @@ jobs:
       - name: Scan
         run: |
           pip install -r requirements-dev.txt
-          bandit --exclude ./.venv/,./tests -r .
+          bandit --exclude ./.venv/,./s3/tests -r .
