@@ -1,0 +1,7 @@
+*.md
+.venv/
+.github
+.pre-commit-config.yaml
+requirements-dev.txt
+s3/tests/
+vars.yaml
