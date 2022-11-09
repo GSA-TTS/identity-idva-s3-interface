@@ -25,6 +25,6 @@ def get_s3_info():
 
 
 PORT = int(os.getenv("PORT", 8080))
-HOST = '0.0.0.0'
+HOST = "0.0.0.0"  # nosec
 
 KEY_ID, SECRET_KEY, REGION, BUCKET = get_s3_info()
