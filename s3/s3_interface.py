@@ -1,5 +1,3 @@
-
-
 def get_file(key, bucket, tmp):
     """
     return specific file in base64 format from bucket to be stored in temp local file
