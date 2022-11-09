@@ -1,5 +1,6 @@
 import boto3
 import tempfile
+import mimetypes
 from flask import Flask, jsonify, request, send_file
 from s3 import s3_interface
 from s3 import settings
@@ -21,7 +22,7 @@ def get_file():
     Get file from s3 interface
     """
     args = request.args
-    file_name = args.get('name')
+    file_name = args.get("name")
     tmp = tempfile.NamedTemporaryFile()
     try:
         image = s3_interface.get_file(file_name, bucket, tmp)
