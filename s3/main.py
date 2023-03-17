@@ -9,13 +9,13 @@ s3_clients = s3_interface.get_clients(settings.S3_CREDENTIALS)
 app = Flask(__name__)
 
 
-@app.route("/get/<vendor_id>/", methods=["GET"])
-def get_file(vendor_id):
+@app.route("/get/<service_id>/", methods=["GET"])
+def get_file(service_id):
     """
     Get file from s3 interface
     """
 
-    if not vendor_id in settings.S3_CREDENTIALS:
+    if not service_id in settings.S3_CREDENTIALS:
         return (
             jsonify(
                 {
@@ -25,8 +25,8 @@ def get_file(vendor_id):
             404,
         )
 
-    bucket = settings.S3_CREDENTIALS[vendor_id]["bucket"]
-    s3_client = s3_clients[vendor_id]
+    bucket = settings.S3_CREDENTIALS[service_id]["bucket"]
+    s3_client = s3_clients[service_id]
 
     args = request.args
     file_name = args.get("file")
