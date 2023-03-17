@@ -9,13 +9,13 @@ s3_clients = s3_interface.get_clients(settings.S3_CREDENTIALS)
 app = Flask(__name__)
 
 
-@app.route("/get/<vendor_id>/<file_id>", methods=["GET"])
-def get_file(vendor_id, file_id):
+@app.route("/get/<vendor_id>/", methods=["GET"])
+def get_file(vendor_id):
     """
     Get file from s3 interface
     """
 
-    if not settings.S3_CREDENTIALS[vendor_id]:
+    if not vendor_id in settings.S3_CREDENTIALS:
         return (
             jsonify(
                 {
@@ -28,9 +28,12 @@ def get_file(vendor_id, file_id):
     bucket = settings.S3_CREDENTIALS[vendor_id]["bucket"]
     s3_client = s3_clients[vendor_id]
 
+    args = request.args
+    file_name = args.get("file")
+
     tmp = tempfile.NamedTemporaryFile()
     try:
-        image = s3_interface.get_file(s3_client, file_id, bucket, tmp)
+        image = s3_interface.get_file(s3_client, file_name, bucket, tmp)
     except FileNotFoundError:
         return (
             jsonify(
@@ -41,7 +44,7 @@ def get_file(vendor_id, file_id):
             404,
         )
     else:
-        return send_file(image, mimetype=mimetypes.guess_type(file_id)[0])
+        return send_file(image, mimetype=mimetypes.guess_type(file_name)[0])
 
 
 if __name__ == "__main__":
