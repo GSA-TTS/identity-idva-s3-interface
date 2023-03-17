@@ -13,15 +13,15 @@ def bucket_name():
 @pytest.fixture
 def s3_test(s3_resource, bucket_name):
     s3_resource.create_bucket(Bucket=bucket_name)
-    s3_resource.Bucket(bucket_name).upload_file(
-        "./s3/tests/images/penguin.jpg", "penguin.jpg"
+    s3_resource.upload_file(
+        Filename="./s3/tests/images/penguin.jpg", Bucket=bucket_name, Key="penguin.jpg"
     )
 
 
 def test_get_image_pass(s3_resource, s3_test, bucket_name):
     tmp = tempfile.NamedTemporaryFile()
 
-    res = s3_interface.get_file("penguin.jpg", s3_resource.Bucket(bucket_name), tmp)
+    res = s3_interface.get_file(s3_resource, "penguin.jpg", bucket_name, tmp)
 
     with open("./s3/tests/images/penguin.jpg", "rb") as img:
         b64_og = base64.b64encode(img.read()).decode("utf-8")
@@ -35,7 +35,7 @@ def test_get_image_pass(s3_resource, s3_test, bucket_name):
 def test_get_image_not_found(s3_resource, s3_test, bucket_name):
     tmp = tempfile.NamedTemporaryFile()
     try:
-        s3_interface.get_file("does_not_exist", s3_resource.Bucket(bucket_name), tmp)
+        s3_interface.get_file(s3_resource, "does_not_exist", bucket_name, tmp)
     except FileNotFoundError:
         assert True
     else:
