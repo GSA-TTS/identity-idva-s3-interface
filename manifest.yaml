@@ -10,5 +10,5 @@ applications:
       - python_buildpack
     command: gunicorn s3.main:app
     services:
-      - ((VENDOR_1))
-      - ((VENDOR_2))
+      - ((SERVICE_1))
+      - ((SERVICE_2))

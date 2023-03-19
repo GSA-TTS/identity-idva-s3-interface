@@ -30,10 +30,11 @@ jobs:
           cf-username: ${{ secrets.CF_USERNAME }}
           cf-password: ${{ secrets.CF_PASSWORD }}
           cf-org: ${{ secrets.CF_ORG }}
-          VENDOR_1: ${{ secrets.VENDOR_1 }}
-          VENDOR_2: ${{ secrets.VENDOR_2 }}
 
       - name: Deploy application
         run: cf push --vars-file vars.yaml
           --var ENVIRONMENT_NAME=${{ steps.cf-setup.outputs.target-environment }}
           --strategy rolling
+        with:
+          SERVICE_1: ${{ secrets.SERVICE_1 }}
+          SERVICE_2: ${{ secrets.SERVICE_2 }}
