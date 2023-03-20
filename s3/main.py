@@ -1,31 +1,39 @@
-import boto3
 import tempfile
 import mimetypes
 from flask import Flask, jsonify, request, send_file
 from s3 import s3_interface
 from s3 import settings
 
-s3 = boto3.resource(
-    "s3",
-    aws_access_key_id=settings.KEY_ID,
-    aws_secret_access_key=settings.SECRET_KEY,
-    region_name=settings.REGION,
-)
-bucket = s3.Bucket(settings.BUCKET)
+s3_clients = s3_interface.get_clients(settings.S3_CREDENTIALS)
 
 app = Flask(__name__)
 
 
-@app.route("/get", methods=["GET"])
-def get_file():
+@app.route("/get/<service_id>/", methods=["GET"])
+def get_file(service_id):
     """
     Get file from s3 interface
     """
+
+    if not service_id in settings.S3_CREDENTIALS:
+        return (
+            jsonify(
+                {
+                    "error": "S3 Service not Found",
+                }
+            ),
+            404,
+        )
+
+    bucket = settings.S3_CREDENTIALS[service_id]["bucket"]
+    s3_client = s3_clients[service_id]
+
     args = request.args
-    file_name = args.get("name")
+    file_name = args.get("file")
+
     tmp = tempfile.NamedTemporaryFile()
     try:
-        image = s3_interface.get_file(file_name, bucket, tmp)
+        image = s3_interface.get_file(s3_client, file_name, bucket, tmp)
     except FileNotFoundError:
         return (
             jsonify(

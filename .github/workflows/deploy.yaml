@@ -18,7 +18,7 @@ jobs:
     uses: 18F/identity-idva-s3-interface/.github/workflows/unit-tests.yaml@main
 
   deploy:
-    if: github.repository_owner == '18F'
+    if: github.repository_owner == 'GSA-TTS'
     needs: unit-test
     runs-on: ubuntu-latest
     steps:
@@ -35,3 +35,6 @@ jobs:
         run: cf push --vars-file vars.yaml
           --var ENVIRONMENT_NAME=${{ steps.cf-setup.outputs.target-environment }}
           --strategy rolling
+        with:
+          SERVICE_1: ${{ secrets.SERVICE_1 }}
+          SERVICE_2: ${{ secrets.SERVICE_2 }}

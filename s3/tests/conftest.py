@@ -7,7 +7,7 @@ from moto import mock_s3
 @pytest.fixture
 def s3_resource():
     with mock_s3():
-        s3 = boto3.resource(
+        s3 = boto3.client(
             "s3",
             aws_access_key_id="testing",
             aws_secret_access_key="testing",
