@@ -24,7 +24,7 @@ To set up your environment, run the following commands (or the equivalent
 commands if not using a bash-like terminal):
 ```shell
 # Clone the project
-git clone https://github.com/18F/identity-idva-s3-interface
+git clone https://github.com/GSA-TTS/identity-idva-s3-interface
 cd identity-idva-s3-interface
 
 # Set up Python virtual environment
@@ -41,8 +41,13 @@ pre-commit install
 After completing [development setup](#development-setup) application locally with:
 ```shell
 python -m pytest # NOTE that without DEBUG=True, local unit tests will fail
-uvicorn s3-interface.main:app
+gunicorn s3-interface.main:app
 ```
+
+### Available endpoints
+
+`GET` or `DELETE` `/<vendor_id>?file=<file_name>`
+
 
 ### Testing the application
 After completing [development setup](#development-setup) application locally with:
