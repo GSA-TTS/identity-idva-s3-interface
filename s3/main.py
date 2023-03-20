@@ -9,7 +9,7 @@ s3_clients = s3_interface.get_clients(settings.S3_CREDENTIALS)
 app = Flask(__name__)
 
 
-@app.route("/<service_id>/", methods=["GET", "DELETE"])
+@app.route("/<service_id>", methods=["GET", "DELETE"])
 def s3_file(service_id):
     """
     Get or Delete file from s3 interface
