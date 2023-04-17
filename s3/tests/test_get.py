@@ -5,23 +5,10 @@ import tempfile
 from s3 import s3_interface
 
 
-@pytest.fixture
-def bucket_name():
-    return "my-test-bucket"
-
-
-@pytest.fixture
-def s3_test(s3_resource, bucket_name):
-    s3_resource.create_bucket(Bucket=bucket_name)
-    s3_resource.upload_file(
-        Filename="./s3/tests/images/penguin.jpg", Bucket=bucket_name, Key="penguin.jpg"
-    )
-
-
-def test_get_image_pass(s3_resource, s3_test, bucket_name):
+def test_get_image_pass(s3_client, s3_test, bucket_name):
     tmp = tempfile.NamedTemporaryFile()
 
-    res = s3_interface.get_file(s3_resource, "penguin.jpg", bucket_name, tmp)
+    res = s3_interface.get_file(s3_client, bucket_name, "penguin.jpg", tmp)
 
     with open("./s3/tests/images/penguin.jpg", "rb") as img:
         b64_og = base64.b64encode(img.read()).decode("utf-8")
@@ -32,11 +19,10 @@ def test_get_image_pass(s3_resource, s3_test, bucket_name):
     assert b64_og == b64_new
 
 
-def test_get_image_not_found(s3_resource, s3_test, bucket_name):
+def test_get_image_not_found(s3_client, s3_test, bucket_name):
     tmp = tempfile.NamedTemporaryFile()
     try:
-        s3_interface.get_file(s3_resource, "does_not_exist", bucket_name, tmp)
+        s3_interface.get_file(s3_client, bucket_name, "does_not_exist", tmp)
+        assert False
     except FileNotFoundError:
         assert True
-    else:
-        assert False

@@ -17,7 +17,7 @@ def get_clients(s3_credentials):
     return s3_clients
 
 
-def get_file(s3_client, key, bucket, tmp):
+def get_file(s3_client, bucket, key, tmp):
     """
     return specific file in base64 format from bucket to be stored in temp local file
     """
@@ -30,3 +30,10 @@ def get_file(s3_client, key, bucket, tmp):
         raise FileNotFoundError
 
     return tmp.name
+
+
+def delete_file(s3_client, bucket, key):
+    """
+    deletes specific file
+    """
+    return s3_client.delete_object(Bucket=bucket, Key=key)
