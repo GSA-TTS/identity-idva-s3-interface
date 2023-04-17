@@ -35,6 +35,6 @@ jobs:
         run: cf push --vars-file vars.yaml
           --var ENVIRONMENT_NAME=${{ steps.cf-setup.outputs.target-environment }}
           --strategy rolling
-        with:
+        env:
           SERVICE_1: ${{ secrets.SERVICE_1 }}
           SERVICE_2: ${{ secrets.SERVICE_2 }}
